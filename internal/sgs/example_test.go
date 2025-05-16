@@ -2,6 +2,8 @@ package sgs_test
 
 import (
 	"fmt"
+	"os"
+	"path/filepath"
 
 	"github.com/mmaelicke/go-geostat/internal/distance"
 	"github.com/mmaelicke/go-geostat/internal/empirical"
@@ -12,8 +14,16 @@ import (
 )
 
 func Example_withPancakeData() {
+	// Get the workspace root directory
+	wd, err := os.Getwd()
+	if err != nil {
+		fmt.Printf("Error getting working directory: %v\n", err)
+		return
+	}
+	// Move up one level to reach workspace root
+	rootDir := filepath.Dir(filepath.Dir(wd))
 	// Load the pancake dataset from the data directory
-	data, err := csv.ReadCSV("../../data/pancake.csv", "", "", "", "", "", "", false)
+	data, err := csv.ReadCSV(rootDir+"/data/pancake.csv", "", "", "", "", "", "", false)
 	if err != nil {
 		fmt.Printf("Error loading data: %v\n", err)
 		return

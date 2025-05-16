@@ -1,12 +1,23 @@
 package csv
 
 import (
+	"fmt"
+	"os"
+	"path/filepath"
 	"testing"
 )
 
 func TestReadCopperData(t *testing.T) {
+	// Get the workspace root directory
+	wd, err := os.Getwd()
+	if err != nil {
+		fmt.Printf("Error getting working directory: %v\n", err)
+		return
+	}
+	// Move up one level to reach workspace root
+	rootDir := filepath.Dir(filepath.Dir(wd))
 	// Read the copper data from meuse.txt
-	data, err := ReadCSV("meuse.txt", "x", "y", "", "", "copper", "", false)
+	data, err := ReadCSV(rootDir+"/data/meuse.txt", "x", "y", "", "", "copper", "", false)
 	if err != nil {
 		t.Fatalf("Failed to read CSV: %v", err)
 	}
